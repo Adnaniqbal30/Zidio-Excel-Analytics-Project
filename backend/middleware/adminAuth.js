@@ -1,4 +1,4 @@
-const Admin = require('../models/Admin');
+const Admin = require('../models/admin');
 
 const adminAuth = (requiredPermissions = []) => {
   return async (req, res, next) => {

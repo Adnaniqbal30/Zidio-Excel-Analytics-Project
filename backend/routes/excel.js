@@ -4,7 +4,7 @@ const multer = require('multer');
 const xlsx = require('xlsx');
 const path = require('path');
 const fs = require('fs');
-const ExcelData = require('../models/ExcelData');
+const ExcelData = require('../models/excelData');
 const auth = require('../middleware/auth');
 const upload = require('../middleware/upload');
 
