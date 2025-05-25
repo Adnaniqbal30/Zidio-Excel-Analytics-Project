@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const User = require('../models/user');
 const ExcelData = require('../models/ExcelData');
 const Admin = require('../models/Admin');
 const auth = require('../middleware/auth');
