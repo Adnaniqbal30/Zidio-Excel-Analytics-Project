@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/home';
-import Login from './pages/auth/Login';
-import Signup from './pages/auth/Signup';
+import Login from './pages/auth/login';
+import Signup from './pages/auth/signup';
 import Dashboard from './pages/dashboard';
 import ProtectedRoute from './components/protectedroute';
 
