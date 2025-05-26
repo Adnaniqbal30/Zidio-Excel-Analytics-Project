@@ -19,12 +19,16 @@ const corsOptions = {
   origin: ['https://deft-hotteok-2a2a6f.netlify.app', 'http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: true,
+  optionsSuccessStatus: 200
 };
 
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Explicitly handle preflight requests
+app.options('*', cors(corsOptions));
 
 // API Routes
 const authRoutes = require('./routes/auth');
