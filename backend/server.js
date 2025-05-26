@@ -31,6 +31,16 @@ app.use((req, res, next) => {
   next();
 });
 
+// Handle OPTIONS requests at root level
+app.options('*', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://deft-hotteok-2a2a6f.netlify.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Max-Age', '86400'); // 24 hours
+  res.status(204).end();
+});
+
 // Middleware
 app.use(express.json());
 
