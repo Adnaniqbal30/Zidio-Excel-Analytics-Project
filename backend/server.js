@@ -19,19 +19,11 @@ app.use(cors());
 app.use(express.json());
 
 // API Routes
-const authRoutes = require('./routes/auth'); // ✅ Import route
-app.use('/api/auth', authRoutes); // ✅ Add route middleware here
+const authRoutes = require('./routes/auth');
+app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/excel', require('./routes/excel'));
 app.use('/api/admin', adminRoutes);
-
-// Serve static files in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
-  });
-}
 
 // Connect to MongoDB and start server
 mongoose.connect(process.env.MONGO_URI, {
