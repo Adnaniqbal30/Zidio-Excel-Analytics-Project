@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const path = require('path');
 const userRoutes = require('./routes/users');
 const adminRoutes = require('./routes/admin');
@@ -14,26 +13,23 @@ console.log('MONGO_URI:', process.env.MONGO_URI ? 'Set' : 'Not set');
 console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Set' : 'Not set');
 console.log('GEMINI_API_KEY:', process.env.GEMINI_API_KEY ? 'Set' : 'Not set');
 
-// CORS configuration
-const allowedOrigins = ['https://deft-hotteok-2a2a6f.netlify.app', 'http://localhost:5173'];
+// CORS middleware
+app.use((req, res, next) => {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', 'https://deft-hotteok-2a2a6f.netlify.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-app.use(cors({
-  origin: function(origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-  credentials: true,
-  preflightContinue: false,
-  optionsSuccessStatus: 204
-}));
+  // Handle preflight
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Max-Age', '86400'); // 24 hours
+    res.status(204).end();
+    return;
+  }
+
+  next();
+});
 
 // Middleware
 app.use(express.json());
