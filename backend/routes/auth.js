@@ -4,6 +4,15 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
+// Add CORS headers to all routes in this router
+router.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://deft-hotteok-2a2a6f.netlify.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
 router.post('/register', async (req, res) => {
   const { username, password, role } = req.body;
   
