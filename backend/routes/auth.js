@@ -35,23 +35,41 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+  console.log('\n=== Login Attempt ===');
+  console.log('Time:', new Date().toISOString());
+  console.log('Request Body:', JSON.stringify(req.body, null, 2));
+  
   const { username, password } = req.body;
   
   // Validate input
   if (!username || !password) {
+    console.log('Validation failed: Missing username or password');
     return res.status(400).json({ error: 'Username and password are required' });
   }
 
   try {
+    console.log('Looking up user:', username);
     const user = await User.findOne({ username });
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    
+    if (!user) {
+      console.log('User not found:', username);
+      return res.status(404).json({ error: 'User not found' });
+    }
 
+    console.log('Verifying password for user:', username);
     const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(401).json({ error: 'Invalid credentials' });
+    
+    if (!match) {
+      console.log('Invalid credentials for user:', username);
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
 
+    console.log('Generating token for user:', username);
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: '1d',
     });
+
+    console.log('Login successful for user:', username);
     res.json({ token, role: user.role });
   } catch (err) {
     console.error('Login error:', err);
