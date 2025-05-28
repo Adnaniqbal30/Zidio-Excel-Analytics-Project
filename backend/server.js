@@ -124,7 +124,12 @@ app.get('/health', (req, res) => {
 });
 
 // Add catch-all route for debugging
-app.all('*', (req, res) => {
+app.use((req, res, next) => {
+  if (req.path === '/') {
+    next();
+    return;
+  }
+  
   console.log('\n=== 404 Not Found ===');
   console.log('Requested URL:', req.originalUrl);
   console.log('Method:', req.method);
