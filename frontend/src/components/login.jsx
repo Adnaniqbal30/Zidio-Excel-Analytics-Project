@@ -12,10 +12,14 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/auth/login', {
+      const response = await axios.post('https://zidio-excel-analytics.onrender.com/api/auth/login', {
         username,
         password,
+  },    {
+        withCredentials: true // if you want to send cookies, optional here
       });
+
+    
 
       // Store the JWT token in localStorage or cookie
       localStorage.setItem('token', response.data.token);
