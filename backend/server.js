@@ -124,7 +124,7 @@ app.get('/health', (req, res) => {
 });
 
 // Add catch-all route for debugging
-app.use('*', (req, res) => {
+app.all('*', (req, res) => {
   console.log('\n=== 404 Not Found ===');
   console.log('Requested URL:', req.originalUrl);
   console.log('Method:', req.method);
@@ -136,7 +136,7 @@ app.use('*', (req, res) => {
     message: `Route ${req.originalUrl} not found`,
     availableRoutes: [
       '/',
-      '/test',
+      '/health',
       '/api/auth/login',
       '/api/auth/register',
       '/api/users',
